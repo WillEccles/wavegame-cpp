@@ -5,13 +5,25 @@
 #include "player.h"
 
 #if ((defined _WIN32) || (defined _WIN64)) && !(defined __CYGWIN__)
+#ifdef DEBUG
+#pragma message "DEBUG: Load lib for WIN."
+#endif
 // windows without CYGWIN
 #include <GL/glut.h>
 #elif defined __CYGWIN__
+#ifdef DEBUG
+#pragma message "DEBUG: Load lib for cygwin."
+#endif
 // TODO: figure this one out
 #elif defined __linux__
+#ifdef DEBUG
+#pragma message "DEBUG: Load lib for linux."
+#endif
 #include <GL/glut.h>
 #elif (defined __APPLE__) && (defined __MACH__)
+#ifdef DEBUG
+#pragma message "DEBUG: Load lib for OS X."
+#endif
 #include <GLUT/glut.h>
 #endif
 
