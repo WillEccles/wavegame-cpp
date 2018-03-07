@@ -1,9 +1,19 @@
 #ifndef WAVEGAME_H
 #define WAVEGAME_H
 
-#include <GLUT/glut.h>
 #include <map>
 #include <vector>
+
+#if ((defined _WIN32) || (defined _WIN64)) && !(defined __CYGWIN__)
+// windows without CYGWIN
+#include <GL/glut.h>
+#elif defined __CYGWIN__
+// TODO: figure this one out
+#elif defined __linux__
+#include <GL/glut.h>
+#elif (defined __APPLE__) && (defined __MACH__)
+#include <GLUT/glut.h>
+#endif
 
 static const int SCREENWIDTH = glutGet(GLUT_SCREEN_WIDTH);
 static const int SCREENHEIGHT = glutGet(GLUT_SCREEN_HEIGHT);

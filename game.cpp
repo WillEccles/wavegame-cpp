@@ -3,7 +3,17 @@
 #include <vector>
 #include "gameObject.h"
 #include "player.h"
+
+#if ((defined _WIN32) || (defined _WIN64)) && !(defined __CYGWIN__)
+// windows without CYGWIN
+#include <GL/glut.h>
+#elif defined __CYGWIN__
+// TODO: figure this one out
+#elif defined __linux__
+#include <GL/glut.h>
+#elif (defined __APPLE__) && (defined __MACH__)
 #include <GLUT/glut.h>
+#endif
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT); // clear color buffer
