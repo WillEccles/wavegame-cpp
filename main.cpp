@@ -43,9 +43,12 @@ int main() {
 				window.close();
 		}
 
-		sf::Time elapsed = clock.restart();
-		tick(elapsed);
-		draw(window);
+		sf::Time elapsed = clock.getElapsedTime();
+		if (tick(elapsed)) {
+			// draw in here, since this makes sure it only draws at 60fps
+			draw(window);
+			clock.restart();
+		}
 	}
 
 	return 0;

@@ -28,16 +28,16 @@ class wavegame::player : public wavegame::gameobject {
 				if (getVelX() != 0 && getVelY() != 0) {
 					if (KEY_LEFT && KEY_UP) {
 						setVelX(-8);
-						setVelY(8);
+						setVelY(-8);
 					} else if (KEY_LEFT && KEY_DOWN) {
 						setVelX(-8);
-						setVelY(-8);
+						setVelY(8);
 					} else if (KEY_RIGHT && KEY_UP) {
 						setVelX(8);
-						setVelY(8);
+						setVelY(-8);
 					} else if (KEY_RIGHT && KEY_DOWN) {
 						setVelX(8);
-						setVelY(-8);
+						setVelY(8);
 					}
 				}
 
