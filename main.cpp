@@ -1,5 +1,6 @@
 #include "wavegame.h"
 #include "player.h"
+#include "trail.h"
 
 const static float TICK_TIME = 0.0166666667f;
 
@@ -17,10 +18,13 @@ bool tick(sf::Time elapsed) {
 
 	for (auto it = game_objects.begin(); it != game_objects.end(); ) {
 		if ((*it)->garbage()) {
-			delete (*it);
+			(*it).reset();
 			it = game_objects.erase(it);
 		} else {
 			(*it)->tick();
+			if ((*it)->needsTrail()) {
+				addGameObject(std::make_unique<wavegame::trail>((*it)->getPos(), (*it)->getSize(), (*it)->getColor()));
+			}
 			it++;
 		}
 	}
@@ -30,8 +34,8 @@ bool tick(sf::Time elapsed) {
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Wavegame C++");
-	_player = new wavegame::player(sf::Color(255, 0, 0));
-	addGameObject(_player);
+	addGameObject(std::make_unique<wavegame::player>(sf::Color(255, 0, 0)));
+	// this ensures that the player is always the first thing in the array of objects
 
 	sf::Clock clock;
 	while (window.isOpen())

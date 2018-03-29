@@ -10,46 +10,43 @@ class wavegame::player : public wavegame::gameobject {
 		sf::RectangleShape player_shape;
 	public:
 		player(sf::Color pc) {
-			setX(1280/2-10);
-			setY(720/2-10);
+			setPos(1280/2-10, 720/2-10);
+			setSize(20, 20);
+			setVel(0, 0);
 			setColor(pc);
-			player_shape = sf::RectangleShape(sf::Vector2f(20, 20));
+			player_shape = sf::RectangleShape(getSize());
 			player_shape.setFillColor(pc);
 		};
 		void tick() {
 			if (isPlaying) {
-				setVelX(0 + (KEY_LEFT*-10) + (KEY_RIGHT*10));
-				setVelY(0 + (KEY_UP*-10) + (KEY_DOWN*10));
+				setVel(0 + (KEY_LEFT*-10) + (KEY_RIGHT*10),
+						0 + (KEY_UP*-10) + (KEY_DOWN*10));
 				
-				if (getVelX() != 0 || getVelY() != 0) {
-					// add a trail
-				}
+				if (getVel().x != 0 || getVel().y != 0)
+					setTrailable(true);
+				else
+					setTrailable(false);
 
-				if (getVelX() != 0 && getVelY() != 0) {
+				if (getVel().x != 0 && getVel().y != 0) {
 					if (KEY_LEFT && KEY_UP) {
-						setVelX(-8);
-						setVelY(-8);
+						setVel(-8, -8);
 					} else if (KEY_LEFT && KEY_DOWN) {
-						setVelX(-8);
-						setVelY(8);
+						setVel(-8, 8);
 					} else if (KEY_RIGHT && KEY_UP) {
-						setVelX(8);
-						setVelY(-8);
+						setVel(8, -8);
 					} else if (KEY_RIGHT && KEY_DOWN) {
-						setVelX(8);
-						setVelY(8);
+						setVel(8, 8);
 					}
 				}
 
-				setX(clamp(getX() + getVelX(), 0, 1280-20));
-				setY(clamp(getY() + getVelY(), 0, 1280-20));
+				setPos(clamp(getPos().x + getVel().x, 0, 1280-20),
+						clamp(getPos().y + getVel().y, 0, 1280-20));
 			} else {
-				setVelX(0);
-				setVelY(0);
+				setVel(0, 0);
 			}
 		};
 		void draw(sf::RenderWindow& window) {
-			player_shape.setPosition(getX(), getY());
+			player_shape.setPosition(getPos());
 			window.draw(player_shape);
 		};
 };

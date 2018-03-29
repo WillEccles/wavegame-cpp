@@ -5,6 +5,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <memory>
+#include <iostream>
 
 /* Macros for determining keys pressed */
 #define ISPRESSED(k) sf::Keyboard::isKeyPressed(k)
@@ -21,20 +23,19 @@ namespace wavegame {
 
 using namespace wavegame;
 
-static std::vector<gameobject*> game_objects;
-static wavegame::player *_player;
+static std::vector<std::unique_ptr<gameobject> > game_objects;
 static bool isPlaying = true;
 
-static void addGameObject(gameobject* obj) {
-	game_objects.push_back(obj);
+static void addGameObject(std::unique_ptr<gameobject> obj) {
+	game_objects.push_back(std::move(obj));
 }
 
-template<class T>
-T clamp(T num, T min, T max) {
-	if (num < min)
-		return min;
-	else if (num > max)
-		return max;
+template<class T, class U, class V>
+T clamp(T num, U min, V max) {
+	if (num < (T)min)
+		return (T)min;
+	else if (num > (T)max)
+		return (T)max;
 	else
 		return num;
 }
